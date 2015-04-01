@@ -22,6 +22,8 @@ namespace RemotePCLib {
 			SOCKET s; 
 			SOCKET s2;
 			LPWSAQUERYSET servicePtr;
+			System::String^ deviceName;
+			System::String^ deviceAddress;
 			BluetoothServer(){
 				WORD wVersionRequested = 0x202;
 				WSADATA m_data;
@@ -109,17 +111,20 @@ namespace RemotePCLib {
 				closesocket(s);
 				WSACleanup();
 			}
-			System::String^ clientConnect(){
+			int clientConnect(){
 				SOCKADDR_BTH sab2;
 				int ilen = sizeof(sab2);
 				s2 = accept(s, (sockaddr*)&sab2, &ilen);
 				if (s2 == INVALID_SOCKET)
 				{
-					return nullptr;
+					return 0;
 				}
 				char buffer[100];
 				sprintf(buffer, "%04x%08x::%d",	GET_NAP(sab2.btAddr), GET_SAP(sab2.btAddr), sab2.port);
-				return gcnew System::String(buffer);
+				deviceAddress = gcnew System::String(buffer);
+				servicePtr->lpszServiceInstanceName;
+				sprintf(buffer, "%04x%08x::%d", GET_NAP(sab2.btAddr), GET_SAP(sab2.btAddr), sab2.port);				
+				return 1;
 			}
 			System::String^ getCommand(void){
 				char buffer[1024] = { 0 };
