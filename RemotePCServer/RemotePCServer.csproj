@@ -88,16 +88,16 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\RemotePCLib\RemotePCLib.vcxproj">
-      <Project>{e7605a81-156b-466b-852d-20ba9ab3dafd}</Project>
-      <Name>RemotePCLib</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Resource\ilogo.ico" />
     <Content Include="Resource\logo.ico" />
     <Content Include="Resource\logo.png" />
     <Content Include="Resource\snoopy.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RemotePCLib\RemotePCLib.vcxproj">
+      <Project>{e7605a81-156b-466b-852d-20ba9ab3dafd}</Project>
+      <Name>RemotePCLib</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
