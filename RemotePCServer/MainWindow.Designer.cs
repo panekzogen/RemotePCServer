@@ -40,10 +40,11 @@
             this.metroTabPage3 = new MetroFramework.Controls.MetroTabPage();
             this.metroTabPage2 = new MetroFramework.Controls.MetroTabPage();
             this.metroTabPage1 = new MetroFramework.Controls.MetroTabPage();
-            this.deviceName = new MetroFramework.Controls.MetroLabel();
-            this.metroTile1 = new MetroFramework.Controls.MetroTile();
-            this.metroTile2 = new MetroFramework.Controls.MetroTile();
+            this.bufLabel = new MetroFramework.Controls.MetroLabel();
             this.deviceAddress = new MetroFramework.Controls.MetroLabel();
+            this.metroTile2 = new MetroFramework.Controls.MetroTile();
+            this.metroTile1 = new MetroFramework.Controls.MetroTile();
+            this.deviceName = new MetroFramework.Controls.MetroLabel();
             this.metroTabControl1 = new MetroFramework.Controls.MetroTabControl();
             this.metroContextMenu1.SuspendLayout();
             this.metroTabPage1.SuspendLayout();
@@ -57,7 +58,7 @@
             this.StatusBar.Name = "StatusBar";
             this.StatusBar.Size = new System.Drawing.Size(590, 20);
             this.StatusBar.TabIndex = 1;
-            this.StatusBar.Text = "w8 for connect";
+            this.StatusBar.Text = "Waiting for connection . . .";
             // 
             // trayIcon
             // 
@@ -132,6 +133,7 @@
             // metroTabPage1
             // 
             this.metroTabPage1.AutoScroll = true;
+            this.metroTabPage1.Controls.Add(this.bufLabel);
             this.metroTabPage1.Controls.Add(this.deviceAddress);
             this.metroTabPage1.Controls.Add(this.metroTile2);
             this.metroTabPage1.Controls.Add(this.metroTile1);
@@ -150,24 +152,23 @@
             this.metroTabPage1.VerticalScrollbarHighlightOnWheel = false;
             this.metroTabPage1.VerticalScrollbarSize = 10;
             // 
-            // deviceName
+            // bufLabel
             // 
-            this.deviceName.AutoSize = true;
-            this.deviceName.Location = new System.Drawing.Point(55, 57);
-            this.deviceName.Name = "deviceName";
-            this.deviceName.Size = new System.Drawing.Size(82, 19);
-            this.deviceName.TabIndex = 2;
-            this.deviceName.Text = "deviceName";
+            this.bufLabel.AutoSize = true;
+            this.bufLabel.Location = new System.Drawing.Point(231, 160);
+            this.bufLabel.Name = "bufLabel";
+            this.bufLabel.Size = new System.Drawing.Size(81, 19);
+            this.bufLabel.TabIndex = 6;
+            this.bufLabel.Text = "metroLabel1";
             // 
-            // metroTile1
+            // deviceAddress
             // 
-            this.metroTile1.ActiveControl = null;
-            this.metroTile1.Location = new System.Drawing.Point(3, 34);
-            this.metroTile1.Name = "metroTile1";
-            this.metroTile1.Size = new System.Drawing.Size(100, 20);
-            this.metroTile1.TabIndex = 3;
-            this.metroTile1.Text = "Device name";
-            this.metroTile1.UseSelectable = true;
+            this.deviceAddress.AutoSize = true;
+            this.deviceAddress.Location = new System.Drawing.Point(55, 102);
+            this.deviceAddress.Name = "deviceAddress";
+            this.deviceAddress.Size = new System.Drawing.Size(93, 19);
+            this.deviceAddress.TabIndex = 5;
+            this.deviceAddress.Text = "deviceAddress";
             // 
             // metroTile2
             // 
@@ -179,14 +180,24 @@
             this.metroTile2.Text = "Address";
             this.metroTile2.UseSelectable = true;
             // 
-            // deviceAddress
+            // metroTile1
             // 
-            this.deviceAddress.AutoSize = true;
-            this.deviceAddress.Location = new System.Drawing.Point(55, 102);
-            this.deviceAddress.Name = "deviceAddress";
-            this.deviceAddress.Size = new System.Drawing.Size(93, 19);
-            this.deviceAddress.TabIndex = 5;
-            this.deviceAddress.Text = "deviceAddress";
+            this.metroTile1.ActiveControl = null;
+            this.metroTile1.Location = new System.Drawing.Point(3, 34);
+            this.metroTile1.Name = "metroTile1";
+            this.metroTile1.Size = new System.Drawing.Size(100, 20);
+            this.metroTile1.TabIndex = 3;
+            this.metroTile1.Text = "Device name";
+            this.metroTile1.UseSelectable = true;
+            // 
+            // deviceName
+            // 
+            this.deviceName.AutoSize = true;
+            this.deviceName.Location = new System.Drawing.Point(55, 57);
+            this.deviceName.Name = "deviceName";
+            this.deviceName.Size = new System.Drawing.Size(82, 19);
+            this.deviceName.TabIndex = 2;
+            this.deviceName.Text = "deviceName";
             // 
             // metroTabControl1
             // 
@@ -201,6 +212,7 @@
             this.metroTabControl1.TabIndex = 0;
             this.metroTabControl1.UseSelectable = true;
             this.metroTabControl1.Selected += new System.Windows.Forms.TabControlEventHandler(this.metroTabControl1_Selected);
+            this.metroTabControl1.EnabledChanged += new System.EventHandler(this.metroTabControl1_EnabledChanged);
             // 
             // MainWindow
             // 
@@ -240,6 +252,7 @@
         private MetroFramework.Controls.MetroTile metroTile1;
         private MetroFramework.Controls.MetroLabel deviceName;
         private MetroFramework.Controls.MetroTabControl metroTabControl1;
+        private MetroFramework.Controls.MetroLabel bufLabel;
 
     }
 }
