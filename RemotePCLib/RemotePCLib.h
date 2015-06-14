@@ -9,28 +9,79 @@
 #include <iostream>
 #include <tchar.h>
 #include <vcclr.h>
+#include <Tlhelp32.h>
 
 #pragma comment(lib, "Ws2_32.lib")
 #pragma comment(lib, "irprops.lib")
 #pragma comment(lib, "Rpcrt4.lib")
+#pragma comment(lib, "User32.lib")
+#pragma comment(lib, "Shell32.lib")
+#pragma comment(lib, "Kernel32.lib")
 
 using namespace System;
 
 namespace RemotePCLib {
+	public ref class MediaPlayer{
+		private:
+			HWND hp;
+		public:
+			bool isRunned = false;
+			MediaPlayer(){
+				hp = FindWindowA("WMPlayerApp", NULL);
+				if (!hp) isRunned = false;
+				else isRunned = true;
+			}
+			void Run(){
+				ShellExecuteA(
+					HWND_DESKTOP,
+					(LPCSTR)"open",
+					(LPCSTR)"C:\\Program Files\\Windows Media Player\\wmplayer.exe",
+					NULL,
+					NULL,
+					SW_SHOW);
+
+				hp = FindWindowA("WMPlayerApp", NULL);
+				isRunned = true;
+			}
+			void Play(){
+				SendMessage(hp, WM_COMMAND, 0x4978, NULL);
+			}
+			void Pause(){
+				SendMessage(hp, WM_COMMAND, 0x4978, NULL);
+			}
+			void PlayPause(){
+				SendMessage(hp, WM_COMMAND, 32808, NULL);
+			}
+			void Next(){
+				SendMessage(hp, WM_COMMAND, 0x497B, NULL);
+			}
+			void Prev(){
+				SendMessage(hp, WM_COMMAND, 0x497A, NULL);
+			}
+			void VolUp(){
+				SendMessage(hp, WM_COMMAND, 0x497F, NULL);
+			}
+			void VolDown(){
+				SendMessage(hp, WM_COMMAND, 0x4980, NULL);
+			}
+			void Close(){
+				SendMessage(hp, WM_CLOSE, 0, NULL);
+			}
+	};
 	public ref class BluetoothServer		//TODO: log file
 	{
 		public:
 			SOCKET s; 
 			SOCKET s2;
 			LPWSAQUERYSET servicePtr;
-<<<<<<< HEAD
-			System::String^ deviceAddress;
+
 			System::String^ deviceName;
+			System::String^ deviceAddress;
+			System::String^ device;
+			System::String^ deviceModel;
+			System::String^ androidVersion;
+
 			System::String^ localDevice;
-=======
-			System::String^ deviceName;
-			System::String^ deviceAddress;
->>>>>>> GUIapp
 			BluetoothServer(){
 				WORD wVersionRequested = 0x202;
 				WSADATA m_data;
@@ -118,17 +169,12 @@ namespace RemotePCLib {
 				closesocket(s);
 				WSACleanup();
 			}
-<<<<<<< HEAD
 			bool clientConnect(){
-=======
-			int clientConnect(){
->>>>>>> GUIapp
 				SOCKADDR_BTH sab2;
 				int ilen = sizeof(sab2);
 				s2 = accept(s, (sockaddr*)&sab2, &ilen);
 				if (s2 == INVALID_SOCKET)
 				{
-<<<<<<< HEAD
 					return false;
 				}
 				char buffer[100];
@@ -136,17 +182,10 @@ namespace RemotePCLib {
 				deviceAddress = gcnew System::String(buffer);
 				if (deviceAddress == localDevice) return false;
 				deviceName = getCommand();
+				device = getCommand();
+				deviceModel = getCommand();
+				androidVersion = getCommand();
 				return true;
-=======
-					return 0;
-				}
-				char buffer[100];
-				sprintf(buffer, "%04x%08x::%d",	GET_NAP(sab2.btAddr), GET_SAP(sab2.btAddr), sab2.port);
-				deviceAddress = gcnew System::String(buffer);
-				servicePtr->lpszServiceInstanceName;
-				sprintf(buffer, "%04x%08x::%d", GET_NAP(sab2.btAddr), GET_SAP(sab2.btAddr), sab2.port);				
-				return 1;
->>>>>>> GUIapp
 			}
 			System::String^ getCommand(void){
 				char buffer[1024] = { 0 };
@@ -155,6 +194,13 @@ namespace RemotePCLib {
 				if (r == 0) return nullptr;
 				System::String^ s = gcnew System::String(buffer);
 				return s;
+			}
+			System::String^ sendCommand(System::String^ data){
+				char buffer[1024] = { 0 };
+				memset(buffer, 0, sizeof(buffer));
+				sprintf(buffer, "%s", data);
+				send(s2, buffer, sizeof(buffer), 0);
+				return gcnew System::String(buffer);
 			}
 			void disconnect(){
 				closesocket(s2);
